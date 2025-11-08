@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Focal Point</title>
-  <link rel="stylesheet" href="style.css" />
+  
+  <!-- 🌈 Link to external CSS -->
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
   <div class="container">
@@ -74,9 +76,11 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- ⚙️ Link to external JS -->
+  <script src="scripts/script.js"></script>
+
   <script>
-    // initial quotes assignment (script.js will handle animations)
+    // Initial random quote
     const quotes = [
       "Stay focused. The harder you work, the luckier you get.",
       "One step at a time, one focus at a time.",
@@ -86,7 +90,8 @@
       "Your focus determines your reality.",
       "It always seems impossible until it’s done."
     ];
-    document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById("quote").textContent =
+      quotes[Math.floor(Math.random() * quotes.length)];
   </script>
 </body>
 </html>
