@@ -1,0 +1,425 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500&display=swap");
+
+
+/* === GLOBAL RESETS === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+  transition: background 1s ease, color 0.6s ease;
+}
+
+/* === ENHANCED TITLE === */
+.title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.8em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #00eaff, #6dd5ed, #2193b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200%;
+  animation: gradientShift 6s ease infinite, titleGlow 3s ease-in-out infinite alternate;
+  text-shadow: 0 0 12px rgba(109, 213, 237, 0.4);
+}
+
+/* Gradient animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glow animation */
+@keyframes titleGlow {
+  from { text-shadow: 0 0 12px rgba(109, 213, 237, 0.3); }
+  to { text-shadow: 0 0 28px rgba(109, 213, 237, 0.9); }
+}
+
+/* === MOTIVATIONAL QUOTE === */
+#quote {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, #a1c4fd, #c2e9fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  text-shadow: 0 0 18px rgba(173, 216, 230, 0.3);
+  animation: quoteFadeIn 2s ease forwards, quotePulse 4s ease-in-out infinite alternate;
+}
+
+/* Fade + glow */
+@keyframes quoteFadeIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes quotePulse {
+  0% { text-shadow: 0 0 10px rgba(193, 236, 255, 0.25); }
+  100% { text-shadow: 0 0 25px rgba(193, 236, 255, 0.55); }
+}
+
+
+/* === CONTAINER === */
+.container {
+  text-align: center;
+  padding: 40px 60px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(25px);
+  width: 90%;
+  max-width: 420px;
+  animation: fadeIn 1s ease-in-out;
+  position: relative;
+  z-index: 10;
+}
+
+/* === TITLE === */
+/* === ENHANCED TITLE === */
+.title {
+  font-size: 2.8em;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #6dd5ed, #2193b0, #6dd5ed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200%;
+  animation: gradientShift 6s ease infinite, titleGlow 3s ease-in-out infinite alternate;
+  text-shadow: 0 0 10px rgba(109, 213, 237, 0.4);
+}
+
+/* Gradient shimmer animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Gentle breathing glow */
+@keyframes titleGlow {
+  from { text-shadow: 0 0 10px rgba(109, 213, 237, 0.3); }
+  to { text-shadow: 0 0 25px rgba(109, 213, 237, 0.8); }
+}
+
+/* === MOTIVATIONAL QUOTE === */
+#quote {
+  font-style: italic;
+  font-size: 1.05em;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, #a1c4fd, #c2e9fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  animation: quoteFadeIn 2s ease forwards, quotePulse 4s ease-in-out infinite alternate;
+}
+
+/* Fade in effect */
+@keyframes quoteFadeIn {
+  from { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Subtle glowing shimmer */
+@keyframes quotePulse {
+  0% { text-shadow: 0 0 10px rgba(193, 236, 255, 0.2); }
+  100% { text-shadow: 0 0 20px rgba(193, 236, 255, 0.5); }
+}
+
+
+/* === MODE SWITCH BUTTONS === */
+.mode-switch {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.mode-switch button {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 12px;
+  margin: 0 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  letter-spacing: 0.5px;
+}
+
+.mode-switch button.active {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  border: none;
+  color: #0f2027;
+  box-shadow: 0 0 15px rgba(109, 213, 237, 0.4);
+}
+
+/* === TIMER & STOPWATCH DISPLAY === */
+#timerDisplay,
+#stopwatchDisplay {
+  font-size: 64px;
+  font-weight: 700;
+  margin: 25px 0;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+/* === GLOWING RING EFFECT === */
+#timerDisplay::before,
+#stopwatchDisplay::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  background: radial-gradient(circle at 30% 30%, rgba(109, 213, 237, 0.4), transparent 70%);
+  animation: pulse 3s infinite alternate ease-in-out;
+}
+
+/* === INPUT TIME === */
+.input-time {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.input-time input {
+  width: 120px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  color: #0f2027;
+}
+
+.input-time button {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  border: none;
+  color: #0f2027;
+  padding: 10px 18px;
+  border-radius: 10px;
+  margin-left: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.input-time button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(109, 213, 237, 0.6);
+}
+
+/* === CONTROL BUTTONS === */
+.buttons button {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  color: #0f2027;
+  border: none;
+  padding: 10px 22px;
+  font-size: 17px;
+  border-radius: 12px;
+  margin: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+}
+
+.buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(109, 213, 237, 0.5);
+}
+
+/* === HIDDEN SECTIONS === */
+.hidden {
+  display: none !important;
+}
+
+/* === THEME SWITCH SECTION === */
+.theme-switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 10px;
+  position: relative;
+  z-index: 15;
+}
+
+.theme-switch label {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  transition: color 0.3s ease;
+}
+
+/* === CUSTOM GLOWING DROPDOWN === */
+.custom-dropdown {
+  position: relative;
+  width: 220px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+  z-index: 20;
+}
+.dropdown-selected {
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-dropdown.active {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
+}
+
+/* Dropdown list */
+.dropdown-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: rgba(25, 25, 25, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 9999;
+  backdrop-filter: blur(12px);
+  animation: dropdownOpen 0.25s ease;
+  transform-origin: top center;
+}
+
+.dropdown-list div {
+  padding: 10px 14px;
+  transition: background 0.25s ease, color 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-list div:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+/* Glowing dots */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
+}
+.dot-calm { background: #6dd5ed; }
+.dot-night { background: #8fa9ff; }
+.dot-interactive { background: #00eaff; }
+.dot-aurora { background: #b693ff; }
+
+/* Animation */
+@keyframes dropdownOpen {
+  0% { opacity: 0; transform: translateY(-10px) scale(0.95); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* === BACKGROUND THEMES === */
+body.calm {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+}
+
+body.night {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #f4f6ff;
+}
+
+body.interactive {
+  background: radial-gradient(circle at center, #050505, #000000);
+  color: #b3f8ff;
+}
+
+body.aurora {
+  background: radial-gradient(circle at center, #0a0f1e, #040716);
+  color: #e5faff;
+}
+
+body.aurora .title {
+  background: linear-gradient(90deg, #9ffcff, #c9a2ff, #7ef2ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.aurora .container {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(25px);
+  box-shadow: 0 0 30px rgba(100, 255, 255, 0.2);
+}
+
+/* === BACKGROUND CANVAS ELEMENTS === */
+#starfield,
+#auroraCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none; /* ✅ prevents blocking clicks */
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  from { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
+  to { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+  100% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.1); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  .container { padding: 25px 20px; }
+  #timerDisplay, #stopwatchDisplay { font-size: 50px; }
+  .buttons button { padding: 8px 16px; font-size: 15px; }
+}
+

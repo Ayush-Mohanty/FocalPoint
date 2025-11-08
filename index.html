@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focal Point</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- === TITLE === -->
+    <h1 class="title">Focal Point</h1>
+
+    <!-- Quote -->
+    <p id="quote" style="font-style: italic; opacity: 0.0; margin-bottom: 15px;"></p>
+
+    <!-- === BACKGROUND SELECTOR (custom dropdown) === -->
+    <div class="theme-switch">
+      <label for="bgSelector">Background:</label>
+
+      <div id="customDropdown" class="custom-dropdown" aria-haspopup="listbox" role="button">
+        <div id="selectedOption" class="dropdown-selected">
+          Calm Gradient
+          <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+
+        <div id="dropdownList" class="dropdown-list hidden" role="listbox" aria-label="Background themes">
+          <div data-value="calm"><span class="dot dot-calm"></span> Calm Gradient</div>
+          <div data-value="night"><span class="dot dot-night"></span> Night Sky</div>
+          <div data-value="interactive"><span class="dot dot-interactive"></span> Interactive Starfield</div>
+          <div data-value="aurora"><span class="dot dot-aurora"></span> Aurora Waves</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === MODE SWITCH (Timer / Stopwatch) === -->
+    <div class="mode-switch">
+      <button id="timerMode" class="active">Timer</button>
+      <button id="stopwatchMode">Stopwatch</button>
+    </div>
+
+    <!-- === TIMER SECTION === -->
+    <div class="timer-section" id="timerSection">
+      <div class="input-time">
+        <input
+          type="number"
+          id="minutesInput"
+          placeholder="Minutes"
+          min="1"
+          max="180"
+        />
+        <button id="setTime">Set</button>
+      </div>
+
+      <div id="timerDisplay">00:00</div>
+
+      <div class="buttons">
+        <button id="startTimer">Start</button>
+        <button id="pauseTimer">Pause</button>
+        <button id="resetTimer">Reset</button>
+      </div>
+    </div>
+
+    <!-- === STOPWATCH SECTION === -->
+    <div class="stopwatch-section hidden" id="stopwatchSection">
+      <div id="stopwatchDisplay">00:00:00</div>
+      <div class="buttons">
+        <button id="startSW">Start</button>
+        <button id="pauseSW">Pause</button>
+        <button id="resetSW">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // initial quotes assignment (script.js will handle animations)
+    const quotes = [
+      "Stay focused. The harder you work, the luckier you get.",
+      "One step at a time, one focus at a time.",
+      "Discipline beats motivation.",
+      "Focus on progress, not perfection.",
+      "Great things come from small consistent efforts.",
+      "Your focus determines your reality.",
+      "It always seems impossible until it’s done."
+    ];
+    document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+  </script>
+</body>
+</html>
