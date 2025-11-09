@@ -77,20 +77,47 @@ body {
 }
 
 
-/* === CONTAINER === */
+/* === CONTAINER (Enhanced Frosted Glass Effect) === */
 .container {
   text-align: center;
-  padding: 40px 60px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 25px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(25px);
-  width: 90%;
-  max-width: 420px;
-  animation: fadeIn 1s ease-in-out;
+  padding: 60px 80px; /* increased padding */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.4),
+    inset 0 0 25px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  width: 95%;
+  max-width: 520px; /* broader */
+  animation: fadeIn 1s ease-in-out, glassGlow 8s ease-in-out infinite alternate;
   position: relative;
   z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
+
+/* Soft animated border glow */
+@keyframes glassGlow {
+  0% {
+    box-shadow:
+      0 0 30px rgba(109, 213, 237, 0.25),
+      inset 0 0 25px rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(109, 213, 237, 0.4),
+      inset 0 0 30px rgba(255, 255, 255, 0.1);
+    border-color: rgba(109, 213, 237, 0.35);
+  }
+  100% {
+    box-shadow:
+      0 0 25px rgba(109, 213, 237, 0.25),
+      inset 0 0 20px rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
 
 /* === TITLE === */
 /* === ENHANCED TITLE === */
@@ -347,6 +374,10 @@ body {
 .dot-night { background: #8fa9ff; }
 .dot-interactive { background: #00eaff; }
 .dot-aurora { background: #b693ff; }
+.dot-breeze { background: #4db8ff; }
+.dot-mist { background: #a0b4c2; }
+.dot-pulsegrid { background: #66e3c4; }
+.dot-drift { background: #88d4ff; }
 
 /* Animation */
 @keyframes dropdownOpen {
@@ -423,3 +454,57 @@ body.aurora .container {
   .buttons button { padding: 8px 16px; font-size: 15px; }
 }
 
+/* === NEW MODERN THEMES === */
+
+/* 🌌 Breeze Flow — dark smooth animated gradient */
+body.breeze {
+  background: linear-gradient(-45deg, #101820, #18232f, #142b35, #0f2027);
+  background-size: 400% 400%;
+  animation: breezeFlow 15s ease infinite;
+  color: #eaf6ff;
+}
+@keyframes breezeFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 🌫 Dream Mist — subtle dark misty animation */
+body.mist {
+  background: radial-gradient(circle at 20% 30%, #1c1f24, #0b0f13 80%);
+  position: relative;
+  overflow: hidden;
+  color: #f0f4f7;
+}
+body.mist::before,
+body.mist::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 70%);
+  animation: mistMove 40s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+body.mist::after {
+  animation-delay: 10s;
+  opacity: 0.6;
+}
+@keyframes mistMove {
+  0% { transform: translate(-10%, -10%) scale(1.1); }
+  100% { transform: translate(10%, 10%) scale(1.2); }
+}
+
+/* 🔳 Pulse Grid — subtle glowing grid animation (canvas-based in JS) */
+body.pulsegrid {
+  background: #090b10;
+  color: #d9eaf7;
+}
+
+/* 🌌 Particle Drift — interactive particle motion (canvas-based in JS) */
+body.drift {
+  background: radial-gradient(circle at center, #050608, #0a0d12);
+  color: #d8f8ff;
+}

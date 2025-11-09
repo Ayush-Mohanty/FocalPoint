@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // === THEME NAMES (must be available before applyBackground) ===
+  // === THEME NAMES ===
   const themeNames = {
     calm: "Calm Gradient",
     night: "Night Sky",
     interactive: "Interactive Starfield",
     aurora: "Aurora Waves",
+    breeze: "Breeze Flow",
+    mist: "Dream Mist",
+    pulsegrid: "Pulse Grid",
+    drift: "Particle Drift"
   };
 
   // --- MODE SWITCHING ---
@@ -29,23 +33,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- BACKGROUND SWITCHER ---
   function applyBackground(bg) {
+    // keep only single theme class on body
     document.body.className = bg;
     localStorage.setItem("bgTheme", bg);
 
-    // Remove old canvases
-    ["starfield", "auroraCanvas"].forEach((id) => {
+    // Remove any previously created canvas elements
+    ["starfield", "auroraCanvas", "pulseCanvas", "driftCanvas"].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.remove();
     });
 
-    // Create interactives
+    // Create interactive canvases only when needed
     if (bg === "interactive") createStarfield();
     else if (bg === "aurora") createAurora();
+    else if (bg === "pulsegrid") createPulseGrid();
+    else if (bg === "drift") createParticleDrift();
+
+    // update selected label if present
+    const selectedOption = document.getElementById("selectedOption");
+    if (selectedOption && themeNames[bg]) selectedOption.textContent = themeNames[bg];
 
     showToast(`🌈 ${themeNames[bg]} Activated`);
   }
 
-  // Load saved theme (must load before we set UI selected label)
+  // Load saved theme (default calm)
   const savedTheme = localStorage.getItem("bgTheme") || "calm";
   applyBackground(savedTheme);
 
@@ -54,23 +65,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedOption = document.getElementById("selectedOption");
   const dropdownList = document.getElementById("dropdownList");
 
-  // Protect in case HTML IDs are missing
   if (selectedOption && themeNames[savedTheme]) {
     selectedOption.textContent = themeNames[savedTheme];
   }
 
-  // Toggle open/close
   if (selectedOption && dropdownList && customDropdown) {
+    // toggle dropdown
     selectedOption.addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownList.classList.toggle("hidden");
       customDropdown.classList.toggle("active");
     });
 
-    // Select background
-    dropdownList.querySelectorAll("div").forEach((option) => {
+    // attach click for every option (skip dividers without data-value)
+    dropdownList.querySelectorAll("div[data-value]").forEach(option => {
       option.addEventListener("click", () => {
         const value = option.getAttribute("data-value");
+        if (!value) return;
         selectedOption.textContent = option.textContent.trim();
         dropdownList.classList.add("hidden");
         customDropdown.classList.remove("active");
@@ -78,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Click outside to close
+    // click outside closes the menu
     document.addEventListener("click", (e) => {
       if (!customDropdown.contains(e.target)) {
         dropdownList.classList.add("hidden");
@@ -87,10 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- STARFIELD BACKGROUND ---
+  // --- STARFIELD (Interactive) ---
   function createStarfield() {
     const canvas = document.createElement("canvas");
     canvas.id = "starfield";
+    Object.assign(canvas.style, { position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" });
     document.body.appendChild(canvas);
     const ctx = canvas.getContext("2d");
 
@@ -104,8 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const stars = Array.from({ length: 150 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 1.2,
-      s: Math.random() * 0.3 + 0.05,
+      r: Math.random() * 1.3 + 0.2,
+      s: Math.random() * 0.3 + 0.03,
     }));
 
     let mx = 0, my = 0;
@@ -118,10 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const star of stars) {
         ctx.beginPath();
-        ctx.arc(star.x + mx * 50, star.y + my * 50, star.r, 0, Math.PI * 2);
+        ctx.arc(star.x + mx * 40, star.y + my * 40, star.r, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(255,255,255,0.8)";
         ctx.fill();
-
         star.y += star.s;
         if (star.y > canvas.height) star.y = 0;
       }
@@ -130,10 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
     draw();
   }
 
-  // --- AURORA WAVES BACKGROUND ---
+  // --- AURORA (canvas) ---
   function createAurora() {
     const canvas = document.createElement("canvas");
     canvas.id = "auroraCanvas";
+    Object.assign(canvas.style, { position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" });
     document.body.appendChild(canvas);
     const ctx = canvas.getContext("2d");
 
@@ -146,13 +158,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let t = 0;
     function animate() {
-      const w = canvas.width;
-      const h = canvas.height;
+      const w = canvas.width, h = canvas.height;
       ctx.clearRect(0, 0, w, h);
-
       const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, `hsl(${t % 360}, 80%, 60%)`);
-      grad.addColorStop(1, `hsl(${(t + 120) % 360}, 70%, 50%)`);
+      grad.addColorStop(0, `hsla(${t % 360}, 60%, 20%, 0.6)`);
+      grad.addColorStop(1, `hsla(${(t + 60) % 360}, 50%, 10%, 0.6)`);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
 
@@ -165,18 +175,110 @@ document.addEventListener("DOMContentLoaded", () => {
             Math.cos(x / 50 + t / 25) * 10;
           ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = `hsla(${(t * 2 + i * 60) % 360}, 100%, 70%, 0.3)`;
+        ctx.strokeStyle = `hsla(${(t * 2 + i * 60) % 360}, 100%, 60%, 0.12)`;
         ctx.lineWidth = 2;
         ctx.stroke();
       }
 
-      t += 0.5;
+      t += 0.35;
       requestAnimationFrame(animate);
     }
     animate();
   }
 
-  // --- TOAST NOTIFICATION ---
+  // --- PULSE GRID (canvas) ---
+  function createPulseGrid() {
+    const canvas = document.createElement("canvas");
+    canvas.id = "pulseCanvas";
+    Object.assign(canvas.style, { position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" });
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    let t = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = "rgba(102, 227, 196, 0.12)";
+      ctx.lineWidth = 1;
+      const gap = 46;
+      for (let y = 0; y < canvas.height; y += gap) {
+        for (let x = 0; x < canvas.width; x += gap) {
+          const pulse = Math.sin((x + y + t) / 60) * 6;
+          ctx.beginPath();
+          ctx.rect(x + pulse, y + pulse, 2, 2);
+          ctx.stroke();
+        }
+      }
+      t += 1.8;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  // --- PARTICLE DRIFT (canvas + mouse) ---
+  function createParticleDrift() {
+    const canvas = document.createElement("canvas");
+    canvas.id = "driftCanvas";
+    Object.assign(canvas.style, { position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" });
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const particles = Array.from({ length: 80 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.8 + 0.6,
+      vx: Math.random() * 0.3 - 0.15,
+      vy: Math.random() * 0.3 - 0.15
+    }));
+
+    let mx = null, my = null;
+    document.addEventListener("mousemove", e => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(136, 212, 255, 0.7)";
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (mx !== null && my !== null) {
+          const dx = p.x - mx;
+          const dy = p.y - my;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (dist < 120) {
+            p.vx += dx / dist * 0.015;
+            p.vy += dy / dist * 0.015;
+          }
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  // --- TOAST ---
   function showToast(message) {
     const toast = document.createElement("div");
     toast.textContent = message;
@@ -203,11 +305,14 @@ document.addEventListener("DOMContentLoaded", () => {
       toast.style.opacity = "0";
       toast.style.transform = "translateY(8px)";
       setTimeout(() => toast.remove(), 400);
-    }, 1600);
+    }, 1400);
   }
 
-  // --- TIMER ---
-  let timerInterval, totalTime = 0, timeLeft = 0;
+  // --- TIMER (Persistent) ---
+  let timerInterval;
+  let totalTime = 0;
+  let timeLeft = 0;
+
   const timerDisplay = document.getElementById("timerDisplay");
   const startBtn = document.getElementById("startTimer");
   const pauseBtn = document.getElementById("pauseTimer");
@@ -227,13 +332,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadTimerState() {
-    const end = parseInt(localStorage.getItem("timerEnd"));
-    const total = parseInt(localStorage.getItem("timerTotal"));
+    const endTime = parseInt(localStorage.getItem("timerEnd"));
+    const savedTotal = parseInt(localStorage.getItem("timerTotal"));
     const now = Math.floor(Date.now() / 1000);
-    if (end && total) {
-      const diff = end - now;
+
+    if (endTime && savedTotal) {
+      const diff = endTime - now;
       if (diff > 0) {
-        totalTime = total;
+        totalTime = savedTotal;
         timeLeft = diff;
         startTimer(true);
       } else {
@@ -245,11 +351,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startTimer(auto = false) {
     if (timerInterval) return;
-    const endTime = auto ? parseInt(localStorage.getItem("timerEnd")) : Math.floor(Date.now() / 1000) + timeLeft;
+
+    const endTime = auto
+      ? parseInt(localStorage.getItem("timerEnd"))
+      : Math.floor(Date.now() / 1000) + timeLeft;
+
     saveTimerState(endTime);
+
     timerInterval = setInterval(() => {
       const now = Math.floor(Date.now() / 1000);
       timeLeft = endTime - now;
+
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -259,6 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateTimerDisplay();
         alert("⏰ Time’s up!");
       }
+
       updateTimerDisplay();
     }, 1000);
   }
@@ -296,14 +409,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (timeLeft <= 0) timeLeft = totalTime;
     startTimer();
   });
+
   pauseBtn.addEventListener("click", pauseTimer);
   resetBtn.addEventListener("click", resetTimer);
 
   loadTimerState();
   updateTimerDisplay();
 
-  // --- STOPWATCH ---
-  let swInterval, swTime = 0, isRunning = false;
+  // --- STOPWATCH (Persistent) ---
+  let swInterval;
+  let swTime = 0;
+  let isRunning = false;
+
   const swDisplay = document.getElementById("stopwatchDisplay");
   const startSW = document.getElementById("startSW");
   const pauseSW = document.getElementById("pauseSW");
