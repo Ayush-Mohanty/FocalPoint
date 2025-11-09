@@ -370,14 +370,14 @@ body {
   border-radius: 50%;
   box-shadow: 0 0 6px currentColor;
 }
-.dot-calm { background: #6dd5ed; }
 .dot-night { background: #8fa9ff; }
 .dot-interactive { background: #00eaff; }
 .dot-aurora { background: #b693ff; }
 .dot-breeze { background: #4db8ff; }
 .dot-mist { background: #a0b4c2; }
-.dot-pulsegrid { background: #66e3c4; }
 .dot-drift { background: #88d4ff; }
+.dot-snow { background: #e6f7ff; }
+.dot-rain { background: #4db8ff; }
 
 /* Animation */
 @keyframes dropdownOpen {
@@ -386,9 +386,14 @@ body {
 }
 
 /* === BACKGROUND THEMES === */
-body.calm {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #ffffff;
+body.snow {
+  background: linear-gradient(135deg, #202840, #1b1f2f, #0f111a);
+  color: #eaf6ff;
+}
+
+body.rain {
+  background: linear-gradient(160deg, #0a0c16, #1a202e, #283548);
+  color: #dcefff;
 }
 
 body.night {
@@ -655,4 +660,117 @@ button:active {
 .mode-switch button:hover {
   background: rgba(109, 213, 237, 0.2);
   color: #fff;
+}
+
+/* === 🌈 DROPDOWN OVERFLOW FIX + MOBILE POLISH === */
+.custom-dropdown {
+  position: relative;
+  overflow: visible;
+}
+
+/* Limit dropdown height + scrollable content */
+.dropdown-list {
+  max-height: 240px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 213, 237, 0.6) rgba(255, 255, 255, 0.1);
+  transition: max-height 0.3s ease;
+}
+
+/* Smooth scrollbar styling */
+.dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.6);
+  border-radius: 4px;
+}
+
+/* If dropdown needs to open upward */
+.dropdown-list.open-up {
+  bottom: 110%;
+  top: auto !important;
+  transform-origin: bottom center;
+  animation: dropdownOpenUp 0.25s ease;
+}
+
+/* Animation for upward opening */
+@keyframes dropdownOpenUp {
+  0% { opacity: 0; transform: translateY(10px) scale(0.95); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* Mobile optimization: make dropdown full width */
+@media (max-width: 480px) {
+  .custom-dropdown {
+    width: 100%;
+  }
+
+  .dropdown-list {
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+  }
+
+  .theme-switch {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+/* Slight hover polish for dark mode */
+.dropdown-list div:hover {
+  background: rgba(109, 213, 237, 0.15);
+  transform: scale(1.01);
+}
+
+/* === FINAL FIX: Prevent container stretch when history grows === */
+
+/* 1️⃣ Ensure body never scrolls */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 2️⃣ Allow internal scroll ONLY inside the container if absolutely necessary */
+.container {
+  max-height: 90vh; /* Limit to 90% of viewport */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 213, 237, 0.6) rgba(255, 255, 255, 0.05);
+}
+
+/* 3️⃣ Scrollbar style inside the container */
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+.container::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.4);
+  border-radius: 5px;
+}
+
+/* 4️⃣ History section itself scrolls independently */
+.history-section {
+  max-height: 160px; /* Prevent pushing container */
+  overflow-y: auto;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+}
+
+/* 5️⃣ Scrollbar visuals inside history section */
+.history-section::-webkit-scrollbar {
+  width: 6px;
+}
+.history-section::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.5);
+  border-radius: 3px;
+}
+
+/* 6️⃣ Subtle fade when hovering scroll sections */
+.container:hover::-webkit-scrollbar-thumb,
+.history-section:hover::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.7);
 }
