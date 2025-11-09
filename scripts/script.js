@@ -33,30 +33,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- BACKGROUND SWITCHER ---
   function applyBackground(bg) {
-    // keep only single theme class on body
     document.body.className = bg;
     localStorage.setItem("bgTheme", bg);
 
-    // Remove any previously created canvas elements
     ["starfield", "auroraCanvas", "pulseCanvas", "driftCanvas"].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.remove();
     });
 
-    // Create interactive canvases only when needed
     if (bg === "interactive") createStarfield();
     else if (bg === "aurora") createAurora();
     else if (bg === "pulsegrid") createPulseGrid();
     else if (bg === "drift") createParticleDrift();
 
-    // update selected label if present
     const selectedOption = document.getElementById("selectedOption");
     if (selectedOption && themeNames[bg]) selectedOption.textContent = themeNames[bg];
 
     showToast(`🌈 ${themeNames[bg]} Activated`);
   }
 
-  // Load saved theme (default calm)
   const savedTheme = localStorage.getItem("bgTheme") || "calm";
   applyBackground(savedTheme);
 
@@ -70,14 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (selectedOption && dropdownList && customDropdown) {
-    // toggle dropdown
     selectedOption.addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownList.classList.toggle("hidden");
       customDropdown.classList.toggle("active");
     });
 
-    // attach click for every option (skip dividers without data-value)
     dropdownList.querySelectorAll("div[data-value]").forEach(option => {
       option.addEventListener("click", () => {
         const value = option.getAttribute("data-value");
@@ -89,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // click outside closes the menu
     document.addEventListener("click", (e) => {
       if (!customDropdown.contains(e.target)) {
         dropdownList.classList.add("hidden");
@@ -186,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
     animate();
   }
 
-  // --- PULSE GRID (canvas) ---
+  // --- PULSE GRID ---
   function createPulseGrid() {
     const canvas = document.createElement("canvas");
     canvas.id = "pulseCanvas";
@@ -221,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     draw();
   }
 
-  // --- PARTICLE DRIFT (canvas + mouse) ---
+  // --- PARTICLE DRIFT ---
   function createParticleDrift() {
     const canvas = document.createElement("canvas");
     canvas.id = "driftCanvas";
@@ -282,20 +274,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function showToast(message) {
     const toast = document.createElement("div");
     toast.textContent = message;
-    toast.style.position = "fixed";
-    toast.style.bottom = "20px";
-    toast.style.right = "20px";
-    toast.style.background = "rgba(255,255,255,0.12)";
-    toast.style.border = "1px solid rgba(255,255,255,0.2)";
-    toast.style.backdropFilter = "blur(8px)";
-    toast.style.padding = "10px 18px";
-    toast.style.borderRadius = "12px";
-    toast.style.color = "#fff";
-    toast.style.fontSize = "14px";
-    toast.style.boxShadow = "0 0 15px rgba(255,255,255,0.12)";
-    toast.style.opacity = "0";
-    toast.style.transform = "translateY(8px)";
-    toast.style.transition = "opacity 0.35s ease, transform 0.35s ease";
+    Object.assign(toast.style, {
+      position: "fixed",
+      bottom: "20px",
+      right: "20px",
+      background: "rgba(255,255,255,0.12)",
+      border: "1px solid rgba(255,255,255,0.2)",
+      backdropFilter: "blur(8px)",
+      padding: "10px 18px",
+      borderRadius: "12px",
+      color: "#fff",
+      fontSize: "14px",
+      boxShadow: "0 0 15px rgba(255,255,255,0.12)",
+      opacity: "0",
+      transform: "translateY(8px)",
+      transition: "opacity 0.35s ease, transform 0.35s ease"
+    });
     document.body.appendChild(toast);
     requestAnimationFrame(() => {
       toast.style.opacity = "1";
@@ -308,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1400);
   }
 
-  // --- TIMER (Persistent) ---
+  // --- TIMER ---
   let timerInterval;
   let totalTime = 0;
   let timeLeft = 0;
@@ -416,7 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadTimerState();
   updateTimerDisplay();
 
-  // --- STOPWATCH (Persistent) ---
+  // --- STOPWATCH ---
   let swInterval;
   let swTime = 0;
   let isRunning = false;
@@ -459,7 +453,8 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("swRunning", "false");
   }
 
-  function resetStopwatch() {
+  // ✅ Extended Reset with Study History Integration
+  const originalResetSW = function() {
     clearInterval(swInterval);
     swInterval = null;
     isRunning = false;
@@ -468,7 +463,12 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("swTime");
     localStorage.removeItem("swRunning");
     updateSWDisplay();
-  }
+  };
+
+  resetSW.addEventListener("click", () => {
+    if (swTime > 0) saveHistory(swTime);
+    originalResetSW();
+  });
 
   function loadSWState() {
     const running = localStorage.getItem("swRunning") === "true";
@@ -484,6 +484,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startSW.addEventListener("click", () => { if (!isRunning) startStopwatch(); });
   pauseSW.addEventListener("click", pauseStopwatch);
-  resetSW.addEventListener("click", resetStopwatch);
   loadSWState();
+
+  // === STUDY HISTORY FEATURE ===
+  const historyList = document.getElementById("historyList");
+  const clearHistoryBtn = document.getElementById("clearHistory");
+
+  function loadHistory() {
+    const saved = JSON.parse(localStorage.getItem("studyHistory") || "[]");
+    historyList.innerHTML = "";
+    saved.forEach(entry => {
+      const li = document.createElement("li");
+      li.textContent = `${entry.date} — ${entry.duration}`;
+      historyList.appendChild(li);
+    });
+  }
+
+  function saveHistory(timeInSeconds) {
+    const hrs = Math.floor(timeInSeconds / 3600);
+    const mins = Math.floor((timeInSeconds % 3600) / 60);
+    const secs = timeInSeconds % 60;
+    const duration = `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    const saved = JSON.parse(localStorage.getItem("studyHistory") || "[]");
+    const now = new Date();
+    const entry = {
+      date: now.toLocaleString('en-IN', { dateStyle: "medium", timeStyle: "short" }),
+      duration
+    };
+    saved.unshift(entry);
+    localStorage.setItem("studyHistory", JSON.stringify(saved));
+    loadHistory();
+  }
+
+  clearHistoryBtn.addEventListener("click", () => {
+    if (confirm("Clear all study history?")) {
+      localStorage.removeItem("studyHistory");
+      loadHistory();
+    }
+  });
+
+  loadHistory();
 });

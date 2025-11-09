@@ -23,7 +23,9 @@
       <div id="customDropdown" class="custom-dropdown" aria-haspopup="listbox" role="button">
         <div id="selectedOption" class="dropdown-selected">
           Calm Gradient
-          <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
@@ -54,13 +56,7 @@
     <!-- === TIMER SECTION === -->
     <div class="timer-section" id="timerSection">
       <div class="input-time">
-        <input
-          type="number"
-          id="minutesInput"
-          placeholder="Minutes"
-          min="1"
-          max="180"
-        />
+        <input type="number" id="minutesInput" placeholder="Minutes" min="1" max="180" />
         <button id="setTime">Set</button>
       </div>
 
@@ -81,6 +77,13 @@
         <button id="pauseSW">Pause</button>
         <button id="resetSW">Reset</button>
       </div>
+
+      <!-- === STUDY HISTORY SECTION === -->
+      <div class="history-section">
+        <h3>📘 Study History</h3>
+        <ul id="historyList"></ul>
+        <button id="clearHistory">Clear History</button>
+      </div>
     </div>
   </div>
 
@@ -88,7 +91,6 @@
   <script src="scripts/script.js"></script>
 
   <script>
-    // Initial random quote
     const quotes = [
       "Stay focused. The harder you work, the luckier you get.",
       "One step at a time, one focus at a time.",
