@@ -370,14 +370,14 @@ body {
   border-radius: 50%;
   box-shadow: 0 0 6px currentColor;
 }
-.dot-calm { background: #6dd5ed; }
 .dot-night { background: #8fa9ff; }
 .dot-interactive { background: #00eaff; }
 .dot-aurora { background: #b693ff; }
 .dot-breeze { background: #4db8ff; }
 .dot-mist { background: #a0b4c2; }
-.dot-pulsegrid { background: #66e3c4; }
 .dot-drift { background: #88d4ff; }
+.dot-snow { background: #e6f7ff; }
+.dot-rain { background: #4db8ff; }
 
 /* Animation */
 @keyframes dropdownOpen {
@@ -386,9 +386,14 @@ body {
 }
 
 /* === BACKGROUND THEMES === */
-body.calm {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #ffffff;
+body.snow {
+  background: linear-gradient(135deg, #202840, #1b1f2f, #0f111a);
+  color: #eaf6ff;
+}
+
+body.rain {
+  background: linear-gradient(160deg, #0a0c16, #1a202e, #283548);
+  color: #dcefff;
 }
 
 body.night {
@@ -507,4 +512,265 @@ body.pulsegrid {
 body.drift {
   background: radial-gradient(circle at center, #050608, #0a0d12);
   color: #d8f8ff;
+}
+
+/* === STUDY HISTORY SECTION === */
+.history-section {
+  margin-top: 35px;
+  text-align: left;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05),
+              0 0 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease;
+  transition: all 0.3s ease;
+}
+
+.history-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(109, 213, 237, 0.3);
+}
+
+.history-section h3 {
+  font-size: 1.3em;
+  margin-bottom: 12px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #6dd5ed, #2193b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(109, 213, 237, 0.3);
+}
+
+/* History List */
+#historyList {
+  list-style: none;
+  max-height: 160px;
+  overflow-y: auto;
+  padding-right: 5px;
+  margin-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 213, 237, 0.6) rgba(255, 255, 255, 0.05);
+}
+
+#historyList::-webkit-scrollbar {
+  width: 6px;
+}
+#historyList::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.6);
+  border-radius: 3px;
+}
+#historyList::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#historyList li {
+  background: rgba(255, 255, 255, 0.07);
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+#historyList li:hover {
+  background: rgba(109, 213, 237, 0.12);
+  transform: scale(1.02);
+}
+
+/* Clear Button */
+#clearHistory {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  border: none;
+  color: #0f2027;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#clearHistory:hover {
+  background: linear-gradient(135deg, #2193b0, #6dd5ed);
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(109, 213, 237, 0.5);
+}
+
+/* === EXTRA POLISH — DIVIDER STYLE IN DROPDOWN === */
+.dropdown-list .divider {
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* === THEMES REFINEMENT (Smooth blending, no harsh glow) === */
+
+/* Breeze Flow refinement */
+body.breeze .container {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(109, 213, 237, 0.25);
+  box-shadow: 0 0 20px rgba(109, 213, 237, 0.2);
+}
+
+/* Dream Mist refinement */
+body.mist .container {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(200, 200, 200, 0.15);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.05);
+}
+
+/* Pulse Grid refinement */
+body.pulsegrid .container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(102, 227, 196, 0.25);
+}
+
+/* Particle Drift refinement */
+body.drift .container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(136, 212, 255, 0.25);
+  box-shadow: 0 0 25px rgba(136, 212, 255, 0.3);
+}
+
+/* === SMALL ANIMATIONS FOR ENHANCED INTERACTIVITY === */
+button:active {
+  transform: scale(0.97);
+}
+
+.history-section li {
+  backdrop-filter: blur(5px);
+}
+
+/* Subtle glow when hovering over mode/timer buttons */
+.mode-switch button:hover {
+  background: rgba(109, 213, 237, 0.2);
+  color: #fff;
+}
+
+/* === 🌈 DROPDOWN OVERFLOW FIX + MOBILE POLISH === */
+.custom-dropdown {
+  position: relative;
+  overflow: visible;
+}
+
+/* Limit dropdown height + scrollable content */
+.dropdown-list {
+  max-height: 240px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 213, 237, 0.6) rgba(255, 255, 255, 0.1);
+  transition: max-height 0.3s ease;
+}
+
+/* Smooth scrollbar styling */
+.dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.6);
+  border-radius: 4px;
+}
+
+/* If dropdown needs to open upward */
+.dropdown-list.open-up {
+  bottom: 110%;
+  top: auto !important;
+  transform-origin: bottom center;
+  animation: dropdownOpenUp 0.25s ease;
+}
+
+/* Animation for upward opening */
+@keyframes dropdownOpenUp {
+  0% { opacity: 0; transform: translateY(10px) scale(0.95); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* Mobile optimization: make dropdown full width */
+@media (max-width: 480px) {
+  .custom-dropdown {
+    width: 100%;
+  }
+
+  .dropdown-list {
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+  }
+
+  .theme-switch {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+/* Slight hover polish for dark mode */
+.dropdown-list div:hover {
+  background: rgba(109, 213, 237, 0.15);
+  transform: scale(1.01);
+}
+
+/* === FINAL FIX: Prevent container stretch when history grows === */
+
+/* 1️⃣ Ensure body never scrolls */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 2️⃣ Allow internal scroll ONLY inside the container if absolutely necessary */
+.container {
+  max-height: 90vh; /* Limit to 90% of viewport */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 213, 237, 0.6) rgba(255, 255, 255, 0.05);
+}
+
+/* 3️⃣ Scrollbar style inside the container */
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+.container::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.4);
+  border-radius: 5px;
+}
+
+/* 4️⃣ History section itself scrolls independently */
+.history-section {
+  max-height: 160px; /* Prevent pushing container */
+  overflow-y: auto;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+}
+
+/* 5️⃣ Scrollbar visuals inside history section */
+.history-section::-webkit-scrollbar {
+  width: 6px;
+}
+.history-section::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.5);
+  border-radius: 3px;
+}
+
+/* 6️⃣ Subtle fade when hovering scroll sections */
+.container:hover::-webkit-scrollbar-thumb,
+.history-section:hover::-webkit-scrollbar-thumb {
+  background: rgba(109, 213, 237, 0.7);
 }
